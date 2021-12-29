@@ -84,4 +84,27 @@ public class ShoppingCartTest {
         Assert.assertEquals(expectedSb.toString(), sb.toString());
     }
 
+    @Test
+    public void calculateDiscount()
+    {
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.NEW, 1), 0);// new item, discount must be 0
+
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.REGULAR, 1), 0);// regular item, 1 item, discount must be 0
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.REGULAR, 10), 1);// regular item, 10 items discount must be 1
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.REGULAR, 50), 5);// regular item, 50 items, iscount must be 5
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.REGULAR, 810), 80);// regular item, 810 items, discount must be 80 anything
+
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.SECOND_FREE, 1), 0);// second free item, 1 item, discount must be 0
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.SECOND_FREE, 2), 50);// second free item, 1 item, discount must be 50
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.SECOND_FREE, 10), 51);// second free item, 10 items, discount must be 51
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.SECOND_FREE, 20), 52);// second free item, 20 item, discount must be 52
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.SECOND_FREE, 1000), 80);// second free item, 1000 item, discount must be 80 anything
+
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.SALE, 1), 70);// sale item, 1 item, discount must be 70
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.SALE, 10), 71);// sale item, 1 item, discount must be 70
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.SALE, 30), 73);// sale item, 1 item, discount must be 70
+        Assert.assertEquals(ShoppingCart.calculateDiscount(ShoppingCart.ItemType.SALE, 1000), 80);// sale item, 1 item, discount must be 80 anything
+
+    }
+
 }
