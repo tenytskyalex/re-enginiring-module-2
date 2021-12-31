@@ -57,13 +57,15 @@ public class ShoppingCart {
      * last line: 31 $999050.60
      *
      * if no items in cart returns "No items." string.
+     * 1. Unnecessary methods, types were removed
      */
     public String formatTicket(){
         if (items.size() == 0)
             return "No items.";
-        List<String[]> lines = new ArrayList<String[]>();
+        List<String[]> lines = new ArrayList<>();
         String[] header = {"#","Item","Price","Quan.","Discount","Total"};
         int[] align = new int[] { 1, -1, 1, 1, 1, 1 };
+
         // formatting each line
         double total = 0.00;
         int index = 0;
@@ -75,47 +77,56 @@ public class ShoppingCart {
                     item.title,
                     MONEY.format(item.price),
                     String.valueOf(item.quantity),
-                    (discount == 0) ? "-" : (String.valueOf(discount) + "%"),
+                    (discount == 0) ? "-" : (discount + "%"),
                     MONEY.format(itemTotal)
             });
             total += itemTotal;
         }
         String[] footer = { String.valueOf(index),"","","","", MONEY.format(total) };
+
         // formatting table
         // column max length
         int[] width = new int[]{0,0,0,0,0,0};
         for (String[] line : lines)
             for (int i = 0; i < line.length; i++)
-                width[i] = (int) Math.max(width[i], line[i].length());
+                width[i] = Math.max(width[i], line[i].length());
+
         for (int i = 0; i < header.length; i++)
-            width[i] = (int) Math.max(width[i], header[i].length());
+            width[i] = Math.max(width[i], header[i].length());
+
         for (int i = 0; i < footer.length; i++)
-            width[i] = (int) Math.max(width[i], footer[i].length());
+            width[i] = Math.max(width[i], footer[i].length());
+
         // line length
         int lineLength = width.length - 1;
         for (int w : width)
             lineLength += w;
         StringBuilder sb = new StringBuilder();
+
         // header
         for (int i = 0; i < header.length; i++)
             appendFormatted(sb, header[i], align[i], width[i]);
         sb.append("\n");
+
         // separator
         for (int i = 0; i < lineLength; i++)
             sb.append("-");
         sb.append("\n");
+
         // lines
         for (String[] line : lines) {
             for (int i = 0; i < line.length; i++)
                 appendFormatted(sb, line[i], align[i], width[i]);
             sb.append("\n");
         }
+
         if (lines.size() > 0) {
             // separator
             for (int i = 0; i < lineLength; i++)
                 sb.append("-");
             sb.append("\n");
         }
+
         // footer
         for (int i = 0; i < footer.length; i++)
             appendFormatted(sb, footer[i], align[i], width[i]);
