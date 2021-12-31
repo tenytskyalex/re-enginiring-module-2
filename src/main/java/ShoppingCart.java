@@ -92,10 +92,7 @@ public class ShoppingCart {
                 width[i] = Math.max(width[i], line[i].length());
 
         for (int i = 0; i < header.length; i++)
-            width[i] = Math.max(width[i], header[i].length());
-
-        for (int i = 0; i < footer.length; i++)
-            width[i] = Math.max(width[i], footer[i].length());
+            width[i] = Math.max(width[i], Math.max(header[i].length(), footer[i].length()));
 
         // line length
         int lineLength = width.length - 1;
