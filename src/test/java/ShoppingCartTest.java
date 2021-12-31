@@ -107,4 +107,40 @@ public class ShoppingCartTest {
 
     }
 
+    @Test
+    public void addItemCheckFormatTicket() {
+        String title = "Test item";
+        int price = 100;
+        int quantity = 100;
+        ShoppingCart.ItemType type = ShoppingCart.ItemType.REGULAR;
+
+        String expectedResult = "# Item        Price Quan. Discount    Total \n" +
+                "-------------------------------------------\n" +
+                "1 Test item $100.00   100      10% $9000.00 \n" +
+                "-------------------------------------------\n" +
+                "1                                  $9000.00 ";
+
+        cart.addItem(title, price, quantity, type);
+        Assert.assertEquals("# Item        Price Quan. Discount    Total \n" +
+                "-------------------------------------------\n" +
+                "1 Test item $100.00   100      10% $9000.00 \n" +
+                "-------------------------------------------\n" +
+                "1                                  $9000.00 ", cart.formatTicket());
+        cart.addItem("1", price, quantity, type);
+        Assert.assertEquals("# Item        Price Quan. Discount     Total \n" +
+                "--------------------------------------------\n" +
+                "1 Test item $100.00   100      10%  $9000.00 \n" +
+                "2 1         $100.00   100      10%  $9000.00 \n" +
+                "--------------------------------------------\n" +
+                "2                                  $18000.00 ", cart.formatTicket());
+        cart.addItem("12412rnwehrtwekrter1123", price, quantity, type);
+        Assert.assertEquals("# Item                      Price Quan. Discount     Total \n" +
+                "----------------------------------------------------------\n" +
+                "1 Test item               $100.00   100      10%  $9000.00 \n" +
+                "2 1                       $100.00   100      10%  $9000.00 \n" +
+                "3 12412rnwehrtwekrter1123 $100.00   100      10%  $9000.00 \n" +
+                "----------------------------------------------------------\n" +
+                "3                                                $27000.00 ", cart.formatTicket());
+    }
+
 }
