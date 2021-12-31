@@ -84,10 +84,13 @@ public class ShoppingCart {
         }
         String[] footer = { String.valueOf(index),"","","","", MONEY.format(total) };
 
-        // formatting table
-        // column max length
         int[] width = calculateWidth(lines, header, footer);
+        StringBuilder sb = createFormattedLines(lines, header, align, footer, width);
 
+        return sb.toString();
+    }
+
+    private StringBuilder createFormattedLines(List<String[]> lines, String[] header, int[] align, String[] footer, int[] width) {
         // line length
         int lineLength = width.length - 1;
         for (int w : width)
@@ -121,7 +124,7 @@ public class ShoppingCart {
         // footer
         for (int i = 0; i < footer.length; i++)
             appendFormatted(sb, footer[i], align[i], width[i]);
-        return sb.toString();
+        return sb;
     }
 
     private int[] calculateWidth(List<String[]> lines, String[] header, String[] footer) {
